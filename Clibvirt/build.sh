@@ -11,13 +11,10 @@ for component_helper in ${source_dir}/components/*.sh; do
   source $component_helper
 done
 
-# Ordered array of components.
-components=(libffi)
-
 # Compile for macOS
 # TODO: refactor to both arches!
 # macOS_arches=(arm64 x86_64)
-macOS_arches=(x86_64)
+macOS_arches=(arm64)
 sysroot="$(xcrun --sdk macosx --show-sdk-path)"
 for arch in "${macOS_arches[@]}"; do
   platform="macOS"
@@ -26,6 +23,7 @@ for arch in "${macOS_arches[@]}"; do
   standard_cflags="-isysroot ${sysroot} -arch ${arch}"
 
   compile_libffi "${standard_cflags}"
+  compile_pcre "${standard_cflags}"
   compile_glib "${standard_cflags}"
   compile_yajl "${standard_cflags}"
   compile_libvirt "${standard_cflags}"

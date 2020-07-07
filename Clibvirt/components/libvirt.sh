@@ -5,12 +5,18 @@ SOURCE_URL="https://libvirt.org/sources/libvirt-${VERSION}.tar.xz"
 function compile_libvirt() {
   component_name="libvirt"
 
+  if [ -f ${prefix_dir}/lib/libvirt.a ]; then
+    # We're all good here.
+    return
+  fi
+
+
   cflags=$1
 
   build_dir=$(create_build)
   cd $build_dir
   echo Building in $build_dir.
-
+  
   CFLAGS=$cflags PKG_CONFIG_PATH="$(pkg_config)" $(work_dir)/${component_name}/configure --prefix=${prefix_dir} \
     --enable-shared=no --enable-static=yes \
     --with-libvirtd=no  --without-storage-lvm \
@@ -34,10 +40,15 @@ function setup() {
 
   src_dir=$(work_dir)/libvirt
   if [ ! -d ${src_dir} ]; then
-    wget $SOURCE_URL
+    # wget $SOURCE_URL
     mkdir ${src_dir}
     # Extract without version to component name folder
     tar -xvf libvirt-${VERSION}.tar.xz -C ${src_dir} --strip-components=1
+    
+    # Patch out tools target
+    cd ${src_dir}
+    sed -i '' 's/include\/libvirt src tools docs/include\/libvirt src docs/' Makefile.am
+    autoreconf
   fi
 }
 
