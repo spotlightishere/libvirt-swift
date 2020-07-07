@@ -1,0 +1,10 @@
+.DS_Store
+/.build
+/Packages
+/build
+
+# Clibvirt
+/Clibvirt/.build
+/Clibvirt/build
+/Clibvirt/prefixes
+/Clibvirt/work

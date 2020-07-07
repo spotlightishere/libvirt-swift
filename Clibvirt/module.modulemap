@@ -1,0 +1,5 @@
+module Clibvirt [system] {
+  header "/usr/include/Clibvirt.h"
+  link "Clibvirt"
+  export *
+}
