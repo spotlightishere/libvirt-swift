@@ -8,7 +8,7 @@ mkdir -p ${source_dir}/work
 
 # Load all component helpers
 for component_helper in ${source_dir}/components/*.sh; do
-	source $component_helper
+  source $component_helper
 done
 
 # Ordered array of components.
@@ -20,12 +20,15 @@ components=(libffi)
 macOS_arches=(x86_64)
 sysroot="$(xcrun --sdk macosx --show-sdk-path)"
 for arch in "${macOS_arches[@]}"; do
-	platform="macOS"
+  platform="macOS"
 
-	prefix_dir=$(create_prefix)
+  prefix_dir=$(create_prefix)
+  standard_cflags="-isysroot ${sysroot} -arch ${arch}"
 
-	compile_libffi "-isysroot ${sysroot} -arch ${arch}"
-	compile_libvirt "-isysroot ${sysroot} -arch ${arch}"
+  compile_libffi "${standard_cflags}"
+  compile_glib "${standard_cflags}"
+  compile_yajl "${standard_cflags}"
+  compile_libvirt "${standard_cflags}"
 done
 
 # Compile for iOS
