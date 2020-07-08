@@ -11,12 +11,13 @@ function compile_yajl() {
   fi
 
   cflags=$1
+  ldflags=$2
 
   build_dir=$(create_build)
   cd $build_dir
   echo Building in $build_dir.
 
-  CFLAGS=$cflags cmake -DCMAKE_INSTALL_PREFIX=${prefix_dir} $(work_dir)/${component_name}
+  CFLAGS=$cflags LDFLAGS=$ldflags cmake -DCMAKE_INSTALL_PREFIX=${prefix_dir} $(work_dir)/${component_name}
   make
   make install
 }

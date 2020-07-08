@@ -12,12 +12,13 @@ function compile_libvirt() {
 
 
   cflags=$1
+  ldflags=$2
 
   build_dir=$(create_build)
   cd $build_dir
   echo Building in $build_dir.
   
-  CFLAGS=$cflags PKG_CONFIG_PATH="$(pkg_config)" $(work_dir)/${component_name}/configure --prefix=${prefix_dir} \
+  CFLAGS=$cflags LDFLAGS=$ldflags PKG_CONFIG_PATH="$(pkg_config)" $(work_dir)/${component_name}/configure --prefix=${prefix_dir} \
     --enable-shared=no --enable-static=yes \
     --with-libvirtd=no  --without-storage-lvm \
     --without-storage-iscsi   --without-storage-disk \

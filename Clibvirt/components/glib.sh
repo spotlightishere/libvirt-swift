@@ -12,12 +12,13 @@ function compile_glib() {
   fi
 
   cflags=$1
+  ldflags=$2
 
   build_dir=$(create_build)
   cd $build_dir
   echo Building in $build_dir.
 
-  CFLAGS=$cflags PKG_CONFIG_PATH="$(pkg_config)" meson $(work_dir)/${component_name} --prefix=${prefix_dir}
+  CFLAGS=$cflags LDFLAGS=$ldflags PKG_CONFIG_PATH="$(pkg_config)" meson $(work_dir)/${component_name} --prefix=${prefix_dir}
   ninja
   ninja install
 }

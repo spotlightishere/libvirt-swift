@@ -25,3 +25,18 @@ function prefix_dir() {
 function pkg_config() {
   echo ${source_dir}/prefixes/${platform}-${arch}/lib/pkgconfig
 }
+
+# Outputs a triple similar to arm64-apple-darwin20.0.0.
+function host_triple() {
+  echo $(clang -v 2>&1 | grep Target | sed 's/Target: //')
+}
+
+# Outputs a triple similar to x86_64-apple-darwin20.0.0, or whatever $arch is defined as in scope.
+function target_triple() {
+  # TODO: remove
+  if [ $arch = "arm64" ]; then
+    echo "aarch64-apple-darwin$(uname -r)"
+  fi
+  
+  echo "${arch}-apple-darwin$(uname -r)"
+}

@@ -14,19 +14,20 @@ done
 # Compile for macOS
 # TODO: refactor to both arches!
 # macOS_arches=(arm64 x86_64)
-macOS_arches=(arm64)
+macOS_arches=(arm64 x86_64)
 sysroot="$(xcrun --sdk macosx --show-sdk-path)"
 for arch in "${macOS_arches[@]}"; do
   platform="macOS"
 
   prefix_dir=$(create_prefix)
-  standard_cflags="-isysroot ${sysroot} -arch ${arch}"
+  standard_cflags="-arch $arch -isysroot ${sysroot} -I$(prefix_dir)/include"
+  standard_ldflags="-L$(prefix_dir)/lib"
 
   compile_libffi "${standard_cflags}"
-  compile_pcre "${standard_cflags}"
-  compile_glib "${standard_cflags}"
-  compile_yajl "${standard_cflags}"
-  compile_libvirt "${standard_cflags}"
+  compile_pcre "${standard_cflags}" "${standard_ldflags}"
+  compile_glib "${standard_cflags}" "${standard_ldflags}"
+  compile_yajl "${standard_cflags}" "${standard_ldflags}"
+  compile_libvirt "${standard_cflags}" "${standard_ldflags}"
 done
 
 # Compile for iOS
