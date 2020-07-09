@@ -20,8 +20,8 @@ function compile_libvirt() {
   
   CFLAGS=$cflags LDFLAGS=$ldflags PKG_CONFIG_PATH="$(pkg_config)" $(work_dir)/${component_name}/configure --prefix=${prefix_dir} \
     --enable-shared=no --enable-static=yes \
-    --with-libvirtd=no  --without-storage-lvm \
-    --without-storage-iscsi   --without-storage-disk \
+    --with-libvirtd=no --without-storage-lvm \
+    --without-storage-iscsi --without-storage-disk \
     --without-storage-rbd --without-udev \
     --without-capng --without-macvtap \
     --without-network --without-lxc \
@@ -41,7 +41,7 @@ function setup() {
 
   src_dir=$(work_dir)/libvirt
   if [ ! -d ${src_dir} ]; then
-    # wget $SOURCE_URL
+    wget $SOURCE_URL
     mkdir ${src_dir}
     # Extract without version to component name folder
     tar -xvf libvirt-${VERSION}.tar.xz -C ${src_dir} --strip-components=1

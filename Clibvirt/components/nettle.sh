@@ -1,12 +1,12 @@
 #!/bin/sh
-VERSION="25"
+VERSION="3.6"
 # TODO: migrate to upstream libffi once libffi/libffi#565 and similar are merged
-SOURCE_URL="https://opensource.apple.com/tarballs/libffi/libffi-${VERSION}.tar.gz"
+SOURCE_URL="https://ftp.gnu.org/gnu/nettle/nettle-${VERSION}.tar.gz"
 
-function compile_libffi() {
-  component_name="libffi"
+function compile_nettle() {
+  component_name="nettle"
 
-  if [ -f ${prefix_dir}/lib/libffi.a ]; then
+  if [ -f ${prefix_dir}/lib/libnettle.a ]; then
     # We're all good here.
     return
   fi
@@ -29,15 +29,12 @@ function compile_libffi() {
 function setup() {
   cd $(work_dir)
 
-  src_dir=$(work_dir)/libffi
+  src_dir=$(work_dir)/nettle
   if [ ! -d ${src_dir} ]; then
     wget $SOURCE_URL
     mkdir ${src_dir}
     # Extract without version to component name folder
-    tar -xvf libffi-${VERSION}.tar.gz -C ${src_dir} --strip-components=1
-    # Create configure
-    cd libffi
-    bash autogen.sh
+    tar -xvf nettle-${VERSION}.tar.gz -C ${src_dir} --strip-components=1
   fi
 }
 
